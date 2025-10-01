@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Age Calculator — UnitSphere</title>
+<link rel="icon" href="logo.png" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  *{box-sizing:border-box;font-family:Inter,system-ui,Arial}
+  body{margin:0;background:#fff;color:#0f1724}
+  header{display:flex;align-items:center;gap:12px;padding:12px 18px}
+  .container{max-width:640px;margin:28px auto;padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(16,24,40,0.06)}
+  input{width:100%;padding:10px;border-radius:8px;border:1px solid #d1d5db}
+  .row{display:flex;gap:10px;margin-top:12px}
+  button{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+  button.calc{background:#1a73e8;color:white}
+  button.clear{background:#ef4444;color:white}
+  #out{margin-top:14px;font-weight:700}
+  body.dark{background:#071022;color:#dbeafe}
+  body.dark .container{background:#081226}
+  body.dark input{background:#081226;color:#dbeafe;border:1px solid #17314a}
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;gap:10px;cursor:pointer" onclick="location.href='index.html'">
+    <img src="logo.png" alt="" style="width:44px;border-radius:8px">
+    <strong>🌐 UnitSphere</strong>
+  </div>
+  <div style="margin-left:auto"><button onclick="toggleTheme()" style="padding:8px 12px;border-radius:8px;background:#1a73e8;color:#fff">Toggle Theme</button></div>
+</header>
+
+<div class="container">
+  <h2>Age Calculator</h2>
+  <p>Enter birth date to get exact age in years, months and days.</p>
+
+  <input id="bdate" type="date" />
+  <div class="row">
+    <button class="calc" onclick="calcAge()">Calculate</button>
+    <button class="clear" onclick="clearAll()">Clear</button>
+    <button onclick="copyResult()">Copy</button>
+  </div>
+
+  <div id="out"></div>
+</div>
+
+<script>
+  function calcAge(){
+    const v = document.getElementById('bdate').value;
+    if(!v){ alert('Select a birth date'); return; }
+    const b = new Date(v);
+    const today = new Date();
+    let yrs = today.getFullYear() - b.getFullYear();
+    let months = today.getMonth() - b.getMonth();
+    let days = today.getDate() - b.getDate();
+    if(days < 0){
+      months -= 1;
+      const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      days += prevMonth;
+    }
+    if(months < 0){
+      yrs -= 1;
+      months += 12;
+    }
+    document.getElementById('out').innerText = `Age: ${yrs} years, ${months} months, ${days} days`;
+  }
+  function clearAll(){ document.getElementById('bdate').value=''; document.getElementById('out').innerText=''; }
+  function copyResult(){ const t=document.getElementById('out').innerText; if(t) navigator.clipboard.writeText(t).then(()=>alert('Copied: '+t)); }
+  function toggleTheme(){ document.body.classList.toggle('dark'); }
+</script>
+</body>
+</html>
