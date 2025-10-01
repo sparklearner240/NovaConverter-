@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>🌐 UnitSphere — Tools Hub</title>
+<meta name="description" content="UnitSphere — Convert, Calculate, Simplify. Click any tool card to open that tool's page." />
+<link rel="icon" href="logo.png" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  *{box-sizing:border-box;transition:0.25s;font-family:Inter,system-ui,Arial;}
+  html,body{height:100%;margin:0;background:#fff;color:#1d1d1f;}
+  header{position:sticky;top:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:linear-gradient(90deg,#ffffffaa,#ffffff00);backdrop-filter: blur(6px);}
+  .logo{display:flex;align-items:center;gap:12px;cursor:pointer}
+  .logo img{width:46px;height:46px;border-radius:10px;object-fit:cover}
+  .logo h1{font-size:1.25rem;margin:0;font-weight:700;letter-spacing:0.2px}
+  .controls{display:flex;gap:12px;align-items:center}
+  .btn-toggle{padding:8px 12px;border-radius:8px;border:none;background:#0f172a;color:#fff;cursor:pointer;font-weight:700}
+  .hero{max-width:1100px;margin:22px auto;padding:36px;border-radius:16px;color:white;text-align:center;
+        background: radial-gradient(1200px 400px at 10% 20%, rgba(255,111,97,0.12), transparent 10%),
+                    linear-gradient(135deg,#1a73e8,#7c4dff 60%,#ff6f61);}
+  .hero h2{font-size:28px;margin:0 0 10px}
+  .hero p{margin:0 0 18px;opacity:0.95}
+  .hero .cta{padding:12px 22px;border-radius:10px;border:none;background:#fff;color:#1a73e8;font-weight:700;cursor:pointer}
+  .search-wrap{max-width:920px;margin:18px auto;display:flex;gap:10px;padding:0 10px}
+  .search-wrap input{flex:1;padding:12px 14px;border-radius:10px;border:1px solid #d1d5db;font-size:16px}
+  .search-wrap button{padding:12px 16px;border-radius:10px;border:none;background:#1a73e8;color:#fff;font-weight:700;cursor:pointer}
+  main#cards{max-width:1100px;margin:18px auto;padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 10px 30px rgba(16,24,40,0.06);cursor:pointer;display:flex;flex-direction:column;gap:12px;min-height:210px}
+  .card h3{margin:0;color:#0f172a}
+  .card p{margin:0;color:#374151;font-size:14px;flex:1}
+  .card .row{display:flex;gap:10px;align-items:center}
+  .card .open{padding:8px 14px;border-radius:10px;border:none;background:#ff6f61;color:#fff;font-weight:700;cursor:pointer}
+  footer{max-width:1100px;margin:30px auto;padding:18px;background:transparent;display:grid;grid-template-columns:1fr;gap:10px;text-align:center;color:#374151}
+  footer .places{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  footer small{display:block;color:#6b7280}
+
+  /* Dark mode */
+  body.dark{background:#0b1220;color:#e6eef9}
+  body.dark header{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0));}
+  body.dark .hero{color:#e6eef9}
+  body.dark .card{background:#0f1724;box-shadow:0 10px 30px rgba(2,6,23,0.7)}
+  body.dark .card p{color:#bcd3ff}
+  body.dark .search-wrap input{background:#0b1220;border:1px solid #172033;color:#e6eef9}
+  body.dark .search-wrap button{background:#2962ff}
+  body.dark .btn-toggle{background:#fff;color:#1a73e8}
+
+  @media (max-width:520px){
+    .hero h2{font-size:20px}
+    .card{min-height:180px}
+    .logo h1{font-size:1rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="location.reload()">
+    <img src="logo.png" alt="UnitSphere Logo" id="siteLogo">
+    <h1>🌐 UnitSphere</h1>
+  </div>
+
+  <div class="controls">
+    <button class="btn-toggle" id="themeBtn" onclick="toggleDark()">Dark</button>
+  </div>
+</header>
+
+<section class="hero" aria-hidden="false">
+  <h2>Convert. Calculate. Simplify.</h2>
+  <p>All your favorite converters & calculators — premium design, lightning-fast, fully working tools. Click any card to open that tool.</p>
+  <button class="cta" onclick="document.getElementById('cards').scrollIntoView({behavior:'smooth'})">Explore Tools</button>
+</section>
+
+<div class="search-wrap" style="padding:0 16px;">
+  <input id="toolSearch" placeholder="Search tools (e.g., EMI, Age, Length) — type and press Search" />
+  <button onclick="filterTools()">Search</button>
+</div>
+
+<main id="cards" aria-live="polite">
+  <!-- Cards: clicking opens tool page -->
+  <article class="card" data-name="Length Converter" onclick="openTool('length.html')">
+    <h3>Length Converter</h3>
+    <p>Convert between meters, kilometers, centimeters, millimeters, miles, yards, feet & inches. Precise & fast.</p>
+    <div class="row">
+      <button class="open" onclick="openTool('length.html', event)">Open Tool</button>
+    </div>
+  </article>
+
+  <article class="card" data-name="Weight Converter" onclick="openTool('weight.html')">
+    <h3>Weight Converter</h3>
+    <p>Convert Kilogram, Gram, Milligram, Pound, Ounce. Instant calculations with 5-decimal precision.</p>
+    <div class="row">
+      <button class="open" onclick="openTool('weight.html', event)">Open Tool</button>
+    </div>
+  </article>
+
+  <article class="card" data-name="Temperature Converter" onclick="openTool('temperature.html')">
+    <h3>Temperature Converter</h3>
+    <p>Convert Celsius, Fahrenheit, Kelvin — accurate conversions and easy UI.</p>
+    <div class="row">
+      <button class="open" onclick="openTool('temperature.html', event)">Open Tool</button>
+    </div>
+  </article>
+
+  <article class="card" data-name="Time Converter" onclick="openTool('time.html')">
+    <h3>Time Converter</h3>
+    <p>Convert seconds, minutes, hours and days effortlessly.</p>
+    <div class="row">
+      <button class="open" onclick="openTool('time.html', event)">Open Tool</button>
+    </div>
+  </article>
+
+  <article class="card" data-name="Age Calculator" onclick="openTool('age.html')">
+    <h3>Age Calculator</h3>
+    <p>Calculate age in years, months and days from a birth date. Shows exact breakdown.</p>
+    <div class="row">
+      <button class="open" onclick="openTool('age.html', event)">Open Tool</button>
+    </div>
+  </article>
+
+  <article class="card" data-name="EMI Calculator" onclick="openTool('emi.html')">
+    <h3>EMI Calculator</h3>
+    <p>Calculate monthly EMI based on principal, interest rate and tenure (months). Shows EMI & total payment.</p>
+    <div class="row">
+      <button class="open" onclick="openTool('emi.html', event)">Open Tool</button>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="places">
+    <div style="padding:14px;border-radius:12px;background:linear-gradient(135deg,#e6f0ff,#eef6ff);box-shadow:0 6px 18px rgba(16,24,40,0.06)">
+      <strong>Advertisement</strong><div style="margin-top:6px;color:#334155">Google Ad Placeholder</div>
+    </div>
+    <div style="padding:14px;border-radius:12px;background:#fff;box-shadow:0 6px 18px rgba(16,24,40,0.06)">
+      <strong>About</strong><div style="margin-top:6px;color:#334155">UnitSphere — premium hub of converters & calculators. All work locally in your browser.</div>
+    </div>
+    <div style="padding:14px;border-radius:12px;background:#fff;box-shadow:0 6px 18px rgba(16,24,40,0.06)">
+      <strong>Privacy</strong><div style="margin-top:6px;color:#334155">We do not store personal data. Calculations happen in your browser.</div>
+    </div>
+  </div>
+  <small>&copy; 2025 UnitSphere — All Rights Reserved</small>
+</footer>
+
+<script>
+  // Theme
+  (function(){
+    const btn = document.getElementById('themeBtn');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) { document.body.classList.add('dark'); btn.textContent = 'Light'; }
+    function setBtn(){ btn.textContent = document.body.classList.contains('dark') ? 'Light' : 'Dark'; }
+    window.toggleDark = function(){ document.body.classList.toggle('dark'); setBtn(); }
+    setBtn();
+  })();
+
+  // Open tool: either via card click or button; stop propagation from button
+  function openTool(url, ev){
+    if(ev) ev.stopPropagation();
+    // open in new tab
+    window.open(url, '_blank');
+  }
+
+  // Search filter (works on card title)
+  function filterTools(){
+    const q = (document.getElementById('toolSearch').value||'').trim().toLowerCase();
+    const cards = document.querySelectorAll('#cards .card');
+    if(!q){ cards.forEach(c=>c.style.display='flex'); return; }
+    cards.forEach(c=>{
+      const name = (c.dataset.name || '').toLowerCase();
+      if(name.includes(q)) c.style.display='flex'; else c.style.display='none';
+    });
+  }
+</script>
+
+</body>
+</html>
