@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Length Converter — UnitSphere</title>
+<link rel="icon" href="logo.png" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  *{box-sizing:border-box;font-family:Inter,system-ui,Arial}
+  body{margin:0;background:#f7fbff;color:#0f1724}
+  header{display:flex;align-items:center;gap:12px;padding:12px 18px;background:linear-gradient(90deg,#ffffff,#ffffff00);position:sticky;top:0}
+  .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+  .container{max-width:800px;margin:26px auto;padding:22px;background:linear-gradient(180deg,#fff,#fbfdff);border-radius:14px;box-shadow:0 10px 30px rgba(16,24,40,0.06)}
+  h1{margin:0 0 8px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  label{font-weight:600;font-size:14px}
+  input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #d1d5db}
+  .row{display:flex;gap:10px;margin-top:12px}
+  button{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+  button.calc{background:#1a73e8;color:white}
+  button.clear{background:#ef4444;color:white}
+  #out{margin-top:14px;font-weight:700}
+  .note{margin-top:8px;color:#374151}
+  @media(max-width:600px){.grid{grid-template-columns:1fr}}
+  body.dark{background:#071022;color:#dbeafe}
+  body.dark .container{background:#081226}
+  body.dark input,body.dark select{background:#081226;color:#dbeafe;border:1px solid #17314a}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="location.href='index.html'">
+    <img src="logo.png" alt="logo" style="width:44px;border-radius:8px">
+    <strong>🌐 UnitSphere</strong>
+  </div>
+  <div style="margin-left:auto">
+    <button onclick="toggleTheme()" style="padding:8px 12px;border-radius:8px;background:#1a73e8;color:#fff">Toggle Theme</button>
+  </div>
+</header>
+
+<div class="container">
+  <h1>Length Converter</h1>
+  <p class="note">Enter value, choose units and press Calculate. Results precise to 5 decimals.</p>
+
+  <div class="grid">
+    <div>
+      <label>Value</label>
+      <input id="value" type="number" placeholder="Enter number" />
+    </div>
+    <div>
+      <label>From</label>
+      <select id="from">
+        <option value="meter">Meter</option>
+        <option value="kilometer">Kilometer</option>
+        <option value="centimeter">Centimeter</option>
+        <option value="millimeter">Millimeter</option>
+        <option value="mile">Mile</option>
+        <option value="yard">Yard</option>
+        <option value="foot">Foot</option>
+        <option value="inch">Inch</option>
+      </select>
+    </div>
+    <div>
+      <label>To</label>
+      <select id="to">
+        <option value="meter">Meter</option>
+        <option value="kilometer">Kilometer</option>
+        <option value="centimeter">Centimeter</option>
+        <option value="millimeter">Millimeter</option>
+        <option value="mile">Mile</option>
+        <option value="yard">Yard</option>
+        <option value="foot">Foot</option>
+        <option value="inch">Inch</option>
+      </select>
+    </div>
+    <div style="align-self:end">
+      <div class="row">
+        <button class="calc" onclick="calc()">Calculate</button>
+        <button class="clear" onclick="clearAll()">Clear</button>
+        <button onclick="copyOut()">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="out"></div>
+</div>
+
+<script>
+  const factors = { meter:1,kilometer:1000,centimeter:0.01,millimeter:0.001,mile:1609.34,yard:0.9144,foot:0.3048,inch:0.0254 };
+  function calc(){
+    const v = parseFloat(document.getElementById('value').value);
+    const from = document.getElementById('from').value;
+    const to = document.getElementById('to').value;
+    if(isNaN(v)){ alert('Enter a number'); return; }
+    const res = (v * factors[from] / factors[to]).toFixed(5);
+    document.getElementById('out').innerText = `${v} ${from} = ${res} ${to}`;
+  }
+  function clearAll(){ document.getElementById('value').value=''; document.getElementById('out').innerText=''; }
+  function copyOut(){ const t = document.getElementById('out').innerText; if(t) navigator.clipboard.writeText(t).then(()=>alert('Copied: '+t)); }
+
+  // Theme toggle (keeps simple)
+  function toggleTheme(){ document.body.classList.toggle('dark'); }
+</script>
+</body>
+</html>
